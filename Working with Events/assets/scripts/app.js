@@ -6,28 +6,32 @@ colorInput.addEventListener("focusout", () => {
   const body = document.body;
   body.style.backgroundColor =
     colorInput.value.trim() == "" ? "white" : colorInput.value.trim(); //change background color
+
   colorInput.value = colorInput.value.toUpperCase(); //change into upperCase
+
   const theme = getComputedColorBrightness();
-  theme == "dark" ? () => setLabelColor("white") : () => setLabelColor("black");
+  if (theme === "dark") {
+    setLabelColor("white");
+  } else {
+    setLabelColor("black");
+  }
 });
 
-function setLabelColor(color) {
-  console.log("called");
+function setLabelColor(newColor) {
   lables.forEach((label) => {
-    label.style.color = color;
+    label.style.color = newColor;
   });
 }
 
 function getComputedColorBrightness() {
   const color = window.getComputedStyle(document.body).backgroundColor;
 
-  // Extract RGB values from the "rgb(r, g, b)" format
   const rgbValues = color.match(/\d+/g);
   const r = parseInt(rgbValues[0]);
   const g = parseInt(rgbValues[1]);
   const b = parseInt(rgbValues[2]);
 
-  return getRgbBrightness(r, g, b); // Reuse the luminance check function
+  return getRgbBrightness(r, g, b);
 }
 
 function getRgbBrightness(r, g, b) {
@@ -36,5 +40,27 @@ function getRgbBrightness(r, g, b) {
 }
 
 //Task 2
-const secondInput = document.querySelector("input:last-of-type");
-console.log(secondInput);
+const secondInput = document.getElementById("pressInput");
+
+secondInput.addEventListener("mousedown", () => {
+  secondInput.style.backgroundColor = "red";
+  secondInput.classList.remove("highlight-placeholder");
+});
+
+secondInput.addEventListener("mouseup", () => {
+  secondInput.style.backgroundColor = "green";
+  secondInput.classList.add("highlight-placeholder");
+});
+
+//Task 3
+const languages = ["Java", "PHP", "Angular"];
+const dropDown = document.querySelector("select");
+languages.forEach((language) => {
+  const labelEle = document.createElement("option");
+  labelEle.innerHTML = language;
+  dropDown.appendChild(labelEle);
+});
+
+dropDown.addEventListener("change", (event) => {
+  alert(`select language is ${event.target.value}`);
+});

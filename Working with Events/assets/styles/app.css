@@ -1,0 +1,7 @@
+.highlight-placeholder::placeholder {
+    color: white;
+}
+
+div {
+    margin: 25px;
+}
