@@ -3,49 +3,62 @@ const addButton = document.getElementById("add-button");
 
 // Function to fetch and display the books
 const fetchBooks = async () => {
-  const response = await fetch(API_URL);
-  const books = await response.json();
-  const bookList = document.getElementById("book-list");
-  bookList.innerHTML = "";
-  books.forEach((book) => {
-    const tr = document.createElement("tr");
-    tr.setAttribute("id", book.id);
-    const bookID = book.id;
-    tr.innerHTML = `
-        <td>${book.title}</td>
-        <td>${book.author}</td>
-        <td>${book.year}</td>
-        <td>
-            <button class="edit-btn">Edit</button>
-            <button class="delete-btn">Delete</button>
-        </td>
-    `;
-    bookList.appendChild(tr);
-    const editButton = tr.querySelector(".edit-btn");
-    const deleteButton = tr.querySelector(".delete-btn");
-    editButton.addEventListener("click", () => {
-      editBook(bookID);
+  try {
+    const response = await fetch(API_URL);
+    if (!response.ok) {
+      throw new Error("Failed to fetch books. Please try again later.");
+    }
+    const books = await response.json();
+    const bookList = document.getElementById("book-list");
+    bookList.innerHTML = "";
+    books.forEach((book) => {
+      const tr = document.createElement("tr");
+      tr.setAttribute("id", book.id);
+      const bookID = book.id;
+      tr.innerHTML = `
+          <td>${book.title}</td>
+          <td>${book.author}</td>
+          <td>${book.year}</td>
+          <td>
+              <button class="edit-btn">Edit</button>
+              <button class="delete-btn">Delete</button>
+          </td>
+      `;
+      bookList.appendChild(tr);
+      const editButton = tr.querySelector(".edit-btn");
+      const deleteButton = tr.querySelector(".delete-btn");
+      editButton.addEventListener("click", () => {
+        editBook(bookID);
+      });
+      deleteButton.addEventListener("click", () => {
+        deleteBook(bookID);
+      });
     });
-    deleteButton.addEventListener("click", () => {
-      deleteBook(bookID);
-    });
-  });
+  } catch (error) {
+    alert(error);
+  }
 };
 
 // Function to create a new book
 
 const createBook = async (book) => {
-  console.log("called");
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(book),
-  });
-  const newBook = await response.json();
-  fetchBooks(); // Refresh the list
-  addButton.innerHTML = "Add Book";
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(book),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to create a new book. Please try again.");
+    }
+    const newBook = await response.json();
+    fetchBooks(); // Refresh the list
+    addButton.innerHTML = "Add Book";
+  } catch (error) {
+    alert(error);
+  }
 };
 
 // Function to edit a book
@@ -67,50 +80,47 @@ const editBook = (id) => {
 
 // Function to update a book
 const updateBook = async (id) => {
-  console.log("id", id);
-  const updatedBook = {
-    title: document.getElementById("book-title").value,
-    author: document.getElementById("book-author").value,
-    year: document.getElementById("book-year").value,
-  };
+  try {
+    const updatedBook = {
+      title: document.getElementById("book-title").value,
+      author: document.getElementById("book-author").value,
+      year: document.getElementById("book-year").value,
+    };
 
-  const response = await fetch(`${API_URL}/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updatedBook),
-  });
-
-  await response.json();
-  fetchBooks(); // Refresh the list
-  document.getElementById("book-form").reset(); // Clear the form fields
-  addButton.innerHTML = "Add Book";
+    const response = await fetch(`${API_URL}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedBook),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to update the book. Please try again.");
+    }
+    await response.json();
+    fetchBooks(); // Refresh the list
+    document.getElementById("book-form").reset(); // Clear the form fields
+    addButton.innerHTML = "Add Book";
+  } catch (error) {
+    alert(error);
+  }
 };
 
 // Function to delete a book
 const deleteBook = async (id) => {
-  await fetch(`${API_URL}/${id}`, {
-    method: "DELETE",
-  });
-  fetchBooks(); // Refresh the list
+  try {
+    const response = await fetch(`${API_URL}/${id}`, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      alert(response);
+    }
+    fetchBooks(); // Refresh the list
+  } catch (error) {
+    alert(error);
+  }
 };
 
-// // Event listener for adding a new book
-// document.getElementById("book-form").addEventListener("submit", (e) => {
-//   e.preventDefault();
-
-//   const newBook = {
-//     title: document.getElementById("book-title").value,
-//     author: document.getElementById("book-author").value,
-//     year: document.getElementById("book-year").value,
-//   };
-
-//   createBook(newBook); // Create the book
-//   document.getElementById("book-form").reset(); // Clear the form
-// });
-
-// Fetch the books on page load
 fetchBooks();
 
 addButton.addEventListener("click", (event) => {
