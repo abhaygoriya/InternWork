@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUD Operations for Books</title>
+    <link rel="stylesheet" href="assets/styles/app.css" />
+    <script src="assets/scripts/app.js" defer></script>
+  </head>
+  <body>
+    <h1>Books CRUD Operations</h1>
+
+    <!-- Form to Create a New Book -->
+    <div class="form-container">
+      <h3>Add a New Book</h3>
+      <form id="book-form">
+        <input type="text" id="book-title" placeholder="Title" required />
+        <input type="text" id="book-author" placeholder="Author" required />
+        <input type="number" id="book-year" placeholder="Year" required />
+        <button id="add-button">Add Book</button>
+      </form>
+    </div>
+
+    <!-- Display the List of Books -->
+    <div class="book-list-container">
+      <h3>Book List</h3>
+      <table id="book-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Year</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="book-list">
+          <!-- Book list items will be injected here -->
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
