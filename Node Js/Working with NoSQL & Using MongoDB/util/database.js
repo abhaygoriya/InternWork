@@ -5,9 +5,7 @@ let _db;
 
 const pass = encodeURIComponent("Abhay123Abhay");
 const mongoConnect = (callback) => {
-  MongoClient.connect(
-    `mongodb+srv://abhay:${pass}@cluster0.qnjka.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
-  )
+  MongoClient.connect("string")
     .then((client) => {
       console.log("Connected to MongoDB Atlas");
       _db = client.db("test");
