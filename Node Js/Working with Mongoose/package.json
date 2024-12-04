@@ -1,0 +1,25 @@
+{
+  "name": "working-with-mongoose",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "mongodb": "4.0",
+    "mongoose": "^8.3.4",
+    "mysql2": "^3.11.5",
+    "sequelize": "^6.37.5"
+  },
+  "author": "",
+  "license": "ISC"
+}
