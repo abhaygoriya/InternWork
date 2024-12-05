@@ -60,24 +60,7 @@ app.use(errorController.get404);
 mongoose
   .connect(MONGODB_URI)
   .then((result) => {
-    User.findById("67513f62f16b0c010e1254fb")
-      .then((user) => {
-        if (!user) {
-          const newUser = new User({
-            name: "Abhay",
-            email: "abhay@test.com",
-            cart: {
-              items: [],
-            },
-          });
-          return newUser.save();
-        }
-        return user;
-      })
-      .then((result) => {
-        app.listen(3000);
-      })
-      .catch((err) => console.log(err));
+    app.listen(3000);
   })
   .catch((err) => {
     console.log("Error connecting to MongoDB:", err);
